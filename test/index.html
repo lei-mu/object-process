@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/process-model@0.0.1-alpha.1/dist/process-model.umd.js"></script>
+<script src="../dist/object-process.umd.js"></script>
+<script>
+  console.log(ObjectProcess);
+  const objectProcess = new ObjectProcess.default()
+  const style = objectProcess.getStyle()
+  console.log(style);
+  objectProcess.resize(200, 200, 'fill')
+  console.log(objectProcess.toString());
+  const image = new Image()
+  image.src = objectProcess.toString()
+</script>
+</body>
+</html>
