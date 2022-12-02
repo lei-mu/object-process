@@ -14,6 +14,8 @@ export default class ObjectProcess {
 
   _config = null
 
+  processModel
+
   VERSION = version
 
   /***

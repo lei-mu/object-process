@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<script src="https://cdn.jsdelivr.net/npm/process-model@0.0.1-alpha.1/dist/process-model.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/process-model@1/dist/process-model.umd.js"></script>
 <script src="../dist/object-process.umd.js"></script>
 <script>
   console.log(ObjectProcess);
@@ -16,6 +16,18 @@
   console.log(objectProcess.toString());
   const image = new Image()
   image.src = objectProcess.toString()
+
+  const model = new ProcessModel()
+  model.set('resize', 'w_200,h_300,limit_0')
+  model.set('resize', {
+    w: 400
+  })
+  model.set('info')
+  model.set('format', 'png')
+
+  model.delete('resize')
+
+  console.log(model.toString());
 </script>
 </body>
 </html>
