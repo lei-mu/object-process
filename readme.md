@@ -20,7 +20,7 @@ obs,oss 等对象储存URL对象处理参数操作。提供一些别名是操作
 
 ## 使用
 
-### [npm](https://www.npmjs.com/package/process-model)
+### [npm](https://www.npmjs.com/package/object-process)
 
 ```` js
 npm install object-process -S
@@ -91,7 +91,7 @@ cdn 使用时必须在引入前引入`process-model` cdn,此插件依赖`process
 ```` js
 const imgURl = 'https://image-demo.oss-cn-hangzhou.aliyuncs.com/example.jpg?x-oss-process=image/crop,x_100,y_50'
 
-
+// 必须使用 .default
 const urlProcess = new ObjectProcess.default(imgURl, {
   processName: 'x-oss-process'
 })
@@ -338,7 +338,7 @@ urlProcess.resize({
    * @example
    * https://support.huaweicloud.com/fg-obs/obs_01_0441.html
    */
-urlProcess.resize(30)
+urlProcess.rotate(30)
 ````
 
 #### crop
