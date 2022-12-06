@@ -1,3 +1,8 @@
+---
+title: 如何工作的
+sidebar: false
+---
+
 
 object-process 是对 [model-process](https://github.com/lei-mu/model-process) 的包装。
 
