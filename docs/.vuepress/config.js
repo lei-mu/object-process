@@ -1,7 +1,9 @@
-import { defineUserConfig, defaultTheme  } from 'vuepress'
-import { docsearchPlugin } from '@vuepress/plugin-docsearch'
-import { pwaPlugin } from '@vuepress/plugin-pwa'
-import { pwaPopupPlugin } from '@vuepress/plugin-pwa-popup'
+import {defineUserConfig, defaultTheme} from 'vuepress'
+import {docsearchPlugin} from '@vuepress/plugin-docsearch'
+import {pwaPlugin} from '@vuepress/plugin-pwa'
+import {pwaPopupPlugin} from '@vuepress/plugin-pwa-popup'
+import {sitemapPlugin } from 'vuepress-plugin-sitemap2'
+
 export default defineUserConfig({
   base: '/object-process/',
   lang: 'zh-CN',
@@ -48,7 +50,12 @@ export default defineUserConfig({
           {text: '常见使用场景', link: '/learn-more/use-scenarios.md'},
         ]
       },
-      {text: '更新记录', link: 'https://github.com/lei-mu/object-process/releases', target: '_blank', rel: 'nofollow noopener noreferrer'},
+      {
+        text: '更新记录',
+        link: 'https://github.com/lei-mu/object-process/releases',
+        target: '_blank',
+        rel: 'nofollow noopener noreferrer'
+      },
       {text: '博客', link: 'https://www.quanzhan.co/', target: '_blank', rel: '33'},
       // {
       //   text: 'DCloud',
@@ -82,5 +89,8 @@ export default defineUserConfig({
         },
       },
     }),
+    sitemapPlugin ({
+      hostname: 'https://www.quanzhan.co/object-process/'
+    })
   ],
 })
