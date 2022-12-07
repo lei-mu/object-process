@@ -38,7 +38,7 @@ getStyle
 
 ### 商品放大镜轮播图
 
-在商品放大镜轮播图区域，显示区域固定，图片尺寸不固定，因始终保证图片完整展示
+在商品放大镜轮播图区域，显示区域固定，图片尺寸不固定，应始终保证图片完整展示
 
 ![https://e-share.obs.cn-north-1.myhuaweicloud.com/example.jpg?x-image-process=image%2Fresize%2Cw_400%2Ch_400%2Cm_lfit%2Climit_0%2Fformat%2Cwebp](https://e-share.obs.cn-north-1.myhuaweicloud.com/example.jpg?x-image-process=image%2Fresize%2Cw_400%2Ch_400%2Cm_lfit%2Climit_0%2Fformat%2Cwebp)
 
