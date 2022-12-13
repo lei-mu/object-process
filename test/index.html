@@ -2,21 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>object-process test</title>
 </head>
 <body>
-<script src="https://cdn.jsdelivr.net/npm/process-model@1/dist/process-model.umd.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/process-model@1/dist/process-model.umd.js"></script>-->
+<script src="https://unpkg.com/process-model@1.0.0/dist/process-model.umd.js"></script>
 <script src="../dist/object-process.umd.js"></script>
 <script>
+  console.log('ObjectProcess');
   console.log(ObjectProcess);
-  const objectProcess = new ObjectProcess.default()
+  const imgURL = 'https://e-share.obs.cn-north-1.myhuaweicloud.com/example.jpg'
+  const objectProcess = new ObjectProcess.default(imgURL)
   const style = objectProcess.getStyle()
+  console.log('style')
   console.log(style);
-  objectProcess.resize(200, 200, 'fill')
-  console.log(objectProcess.toString());
+  console.log('style 测试结果：', style === '')
+  objectProcess.resize(200, undefined, 'fill')
+  const resize1 = objectProcess.toString()
+  console.log('resize1')
+  console.log(resize1);
+  console.log('resize1 测试结果', resize1 === imgURL + `?x-image-process=image%2Fresize%2Cw_200%2Cm_fill%2Climit_0`)
+  objectProcess.resize(100, 300, 'fill')
+  const resize2 = objectProcess.toString()
+  console.log('resize2')
+  console.log(resize2);
+  console.log('resize2 测试结果', resize2 === imgURL + `?x-image-process=image%2Fresize%2Cw_100%2Cm_fill%2Climit_0%2Ch_300`)
+
+  objectProcess.webp()
+  const webpTest = objectProcess.toString()
+  console.log('webpTest')
+  console.log(webpTest);
+  console.log('webpTest 测试结果', webpTest === imgURL + `?x-image-process=image%2Fresize%2Cw_100%2Cm_fill%2Climit_0%2Ch_300%2Fformat%2Cwebp`)
+
+
+
+
+  objectProcess.resize({
+    w: 150,
+    h: 360
+  })
+  const resize3 = objectProcess.toString()
+  console.log('resize3')
+  console.log(resize3);
+  console.log('resize3 测试结果', resize3 ===  imgURL + `?x-image-process=image%2Fresize%2Cw_150%2Cm_fill%2Climit_0%2Ch_360%2Fformat%2Cwebp`)
+
+
+  const style2 = objectProcess.getStyle()
+  console.log('style2')
+  console.log(style2);
+  console.log('style2 测试结果：', style2 === '/resize,w_150,m_fill,limit_0,h_360/format,webp')
+
+
   const image = new Image()
   image.src = objectProcess.toString()
 
+  document.body.append(image)
+
+
+  objectProcess.info()
+  const info = objectProcess.toString()
+  console.log('info')
+  console.log(info);
+  console.log('info 测试结果：', info === imgURL + '?x-image-process=image%2Fresize%2Cw_150%2Cm_fill%2Climit_0%2Ch_360%2Fformat%2Cwebp%2Finfo')
+
+  fetch(info).then(res => res.json()).then(res => {
+    console.log(res);
+  })
+
+  const infoLink = document.createElement('a')
+  infoLink.href = info
+  infoLink.target = '_blank'
+  infoLink.textContent = '点击查看图片信息'
+  document.body.append(infoLink)
+
+
+  console.log('ProcessModel 测试------');
   const model = new ProcessModel()
   model.set('resize', 'w_200,h_300,limit_0')
   model.set('resize', {
@@ -25,7 +85,7 @@
   model.set('info')
   model.set('format', 'png')
 
-  model.delete('resize')
+  // model.delete('resize')
 
   console.log(model.toString());
 </script>
