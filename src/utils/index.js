@@ -1,6 +1,8 @@
+import {isUndefined} from './check.js'
 export function deepClone(target) {
   // weakMap 防止循环引用
   const map = new WeakMap()
+
   // obj
   function isObject(target) {
     return (
@@ -86,4 +88,17 @@ export function deepClone(target) {
   }
 
   return clone(target)
+}
+
+/***
+ * 过滤掉对象中值为undefined 的值
+ * @param {object} obj - 要过滤的对象
+ */
+export const fitlerUndefinedValue = (obj = {}) => {
+  return Object.keys(obj).reduce((pre, item) => {
+    if (!isUndefined(obj[item])) {
+      pre[item] = obj[item]
+    }
+    return pre
+  }, {})
 }

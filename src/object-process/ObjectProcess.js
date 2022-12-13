@@ -2,13 +2,13 @@
 import defaultConfig from './config'
 import ProcessModel from 'process-model'
 // import isPlainObject from 'lodash-es/isPlainObject'
-import { isEmpty as myIsEmpty, isPlainObject } from '../utils/check'
-import {deepClone} from '../utils/index.js'
+import {isEmpty as myIsEmpty, isPlainObject, isUndefined} from '../utils/check'
+import {deepClone, fitlerUndefinedValue} from '../utils/index.js'
 import {version} from '../../package.json'
 
 export default class ObjectProcess {
-  constructor (url, config = {}) {
-    this._config = deepClone({ ...defaultConfig, ...config })
+  constructor(url, config = {}) {
+    this._config = deepClone({...defaultConfig, ...config})
     this._process(url)
   }
 
@@ -22,13 +22,13 @@ export default class ObjectProcess {
    * 设置默认参数
    * @param cb
    */
-  setConfig (cb) {
+  setConfig(cb) {
     if (cb) {
       this._config = cb(this.config)
     }
   }
 
-  get config () {
+  get config() {
     return this._config
   }
 
@@ -36,12 +36,12 @@ export default class ObjectProcess {
    * 获取process 样式字符串
    * @return {*}
    */
-  getStyle () {
+  getStyle() {
     return this.processModel.toString()
   }
 
   // 获取searchParams 参数
-  _processReg (searchUrl, name) {
+  _processReg(searchUrl, name) {
     if (!searchUrl) return
     const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
     const r = searchUrl.match(reg)
@@ -50,7 +50,7 @@ export default class ObjectProcess {
     }
   }
 
-  _process (url = '') {
+  _process(url = '') {
     console.log(url)
     const processName = this.config.processName
     const urlSplit = url.split('?')
@@ -78,7 +78,7 @@ export default class ObjectProcess {
    * @param {string} url - url 字符串
    * @return
    */
-  process (url = '') {
+  process(url = '') {
     this._process(url)
     return this
   }
@@ -87,7 +87,7 @@ export default class ObjectProcess {
    * 序列化
    * @return {string}
    */
-  toString () {
+  toString() {
     const processName = this.config.processName
     const url = this._url
     const urlSplit = url.split('?')
@@ -96,6 +96,7 @@ export default class ObjectProcess {
     const reg = new RegExp('(^|&)' + processName + '=([^&]*)(&|$)', 'i')
     /**
      * 考虑url 可能对数组参数有不同处理方式，所以暂时不考虑使用 类似URL api 去操作 searchParams
+     * 需要支持小程序
      * */
     const processQuery = this.processModel.toString()
     console.log('processQuery')
@@ -127,7 +128,7 @@ export default class ObjectProcess {
    * @example
    * https://support.huaweicloud.com/fg-obs/obs_01_0410.html
    */
-  info () {
+  info() {
     this.processModel.append('info')
     return this
   }
@@ -141,17 +142,19 @@ export default class ObjectProcess {
    * @example
    * https://support.huaweicloud.com/fg-obs/obs_01_0430.html
    * */
-  resize (w, h, m, limit = 0) {
+  resize(w, h, m, limit = 0) {
+
     // https://developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams
     if (isPlainObject(w)) {
       this.processModel.append('resize', w)
     } else {
-      this.processModel.append('resize', {
+      const defaultValue = {
         w,
         h,
         m,
         limit
-      })
+      }
+      this.processModel.append('resize', fitlerUndefinedValue(defaultValue))
     }
     return this
   }
@@ -161,7 +164,7 @@ export default class ObjectProcess {
    * @example
    * https://support.huaweicloud.com/fg-obs/obs_01_0441.html
    */
-  rotate (value) {
+  rotate(value) {
     this.processModel.append('rotate', value)
     return this
   }
@@ -176,17 +179,18 @@ export default class ObjectProcess {
    * @example
    * https://support.huaweicloud.com/fg-obs/obs_01_0451.html
    */
-  crop (g, h, w, x, y) {
+  crop(g, h, w, x, y) {
     if (isPlainObject(g)) {
       this.processModel.append('crop', g)
     } else {
-      this.processModel.append('crop', {
+      const defaultValue = {
         g,
         h,
         w,
         x,
         y
-      })
+      }
+      this.processModel.append('crop', fitlerUndefinedValue(defaultValue))
     }
     return this
   }
@@ -196,7 +200,7 @@ export default class ObjectProcess {
    * @example
    * https://support.huaweicloud.com/fg-obs/obs_01_0471.html
    */
-  format (value) {
+  format(value) {
     this.processModel.append('format', value)
     return this
   }
@@ -207,7 +211,7 @@ export default class ObjectProcess {
    * @example
    * https://support.huaweicloud.com/fg-obs/obs_01_0472.html
    */
-  interlace (value) {
+  interlace(value) {
     this.processModel.append('interlace', value)
     return this
   }
@@ -219,7 +223,7 @@ export default class ObjectProcess {
    * @example
    * https://support.huaweicloud.com/fg-obs/obs_01_0480.html
    */
-  quality (Q, q) {
+  quality(Q, q) {
     if (Q) {
       this.processModel.append('quality', {
         Q
@@ -237,7 +241,7 @@ export default class ObjectProcess {
    * @example
    * https://support.huaweicloud.com/fg-obs/obs_01_0411.html
    */
-  imageslim () {
+  imageslim() {
     this.processModel.append('imageslim')
     return this
   }
@@ -246,7 +250,7 @@ export default class ObjectProcess {
    * 转换成webP格式
    * @param {boolean} force - 是否强制转换webp格式，不考虑是否支持
    */
-  webp (force = false) {
+  webp(force = false) {
     if (force) {
       this.processModel.append('format', 'webp')
     } else {
@@ -272,7 +276,7 @@ export default class ObjectProcess {
    * @param name
    * @param value
    */
-  append (name, value) {
+  append(name, value) {
     this.processModel.append(name, value)
     return this
   }
@@ -282,7 +286,7 @@ export default class ObjectProcess {
    * @param name
    * @param value
    */
-  set (name, value) {
+  set(name, value) {
     this.processModel.set(name, value)
     return this
   }
@@ -290,7 +294,7 @@ export default class ObjectProcess {
   /**
    * 删除指定命令
    * */
-  delete (name) {
+  delete(name) {
     this.processModel.delete(name)
     return this
   }
@@ -300,7 +304,7 @@ export default class ObjectProcess {
    * @param {string} name - 命令名称
    * @return {boolean}
    */
-  has (name) {
+  has(name) {
     return this.processModel.has(name)
   }
 }
