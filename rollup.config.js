@@ -28,7 +28,7 @@ export default {
       generatedCode: {
         reservedNamesAsProps: false
       },
-      interop: 'compat',
+      interop: 'auto',
       systemNullSetters: false
     },
     {
@@ -40,7 +40,7 @@ export default {
       generatedCode: {
         reservedNamesAsProps: false
       },
-      interop: 'compat',
+      interop: 'auto',
       systemNullSetters: false
     },
     {
@@ -52,7 +52,7 @@ export default {
       generatedCode: {
         reservedNamesAsProps: false
       },
-      interop: 'compat',
+      // interop: 'compat',
       systemNullSetters: false
     },
     {
@@ -64,7 +64,7 @@ export default {
       generatedCode: {
         reservedNamesAsProps: false
       },
-      interop: 'compat',
+      // interop: 'auto',
       systemNullSetters: false
     }
   ],
