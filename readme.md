@@ -31,7 +31,7 @@ npm install object-process -S
 unpkg
 
 ```` js
-https://www.unpkg.com/browse/object-process
+https://www.unpkg.com/browse/object-process/
 ````
 
 jsdelivr
